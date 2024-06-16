@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '../../../utils/db';
-import { createNote } from '@/lib/functions/note';
+import { pinNote } from '@/lib/functions/note';
 let isConnected = false;
 if (!isConnected) {
   connectDB();
@@ -8,14 +8,14 @@ if (!isConnected) {
 }
 
 export async function POST(req) {
-  const { title, tagline, body, uploadedBy, pinned } = await req.json();
+  const { noteId } = await req.json();
 
   try {
-    const newNote = await createNote(title, tagline, body, uploadedBy, pinned);
-    return NextResponse.json(newNote);
+    const pinnedNote = await pinNote(noteId);
+    return NextResponse.json(pinnedNote);
   } catch (err) {
     return NextResponse.json(
-      { error: 'An error occurred while creating note' },
+      { error: 'An error occurred while pinning note' },
       { status: 500 }
     );
   }

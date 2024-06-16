@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { connectDB } from '../../../../utils/db';
+import { connectDB } from '../../../utils/db';
 import { getNoteWithId, updateNote } from '@/lib/functions/note';
 
 let isConnected = false;

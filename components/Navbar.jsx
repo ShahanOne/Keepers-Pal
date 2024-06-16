@@ -1,34 +1,18 @@
 'use client';
-import { useRouter } from 'next/navigation';
 
-const Navbar = ({ isSignedIn, signOut, signIn }) => {
-  const router = useRouter();
+const Navbar = ({ mode, changeTheme }) => {
   return (
-    <div className="flex justify-between bg-gradient-to-tr from-orange-400 to-yellow-500 text-white p-4 ">
+    <div className="flex justify-between bg-gradient-to-r from-cyan-500 to-indigo-400 text-white px-6 py-8 ">
       <p className="text-xl font-bold">Keepers Pal</p>
       <div className="flex justify-center gap-4 md:gap-12">
-        <p
-          className=" cursor-pointer"
-          //   onClick={() =>
-          //     isSignedIn ? router.push('/user/home') : router.push('/user/home')
-          //   }
+        <p className=" cursor-pointer">Home</p>
+        <button
+          className="shadow rounded-2xl px-2 cursor-pointer"
+          onClick={changeTheme}
         >
-          Home
-        </p>
-        {isSignedIn && (
-          <p
-            className=" cursor-pointer"
-            onClick={() => router.push('/user/uploaded-recipes')}
-          >
-            My Recipes
-          </p>
-        )}
-        <p
-          className=" cursor-pointer"
-          onClick={() => (isSignedIn ? signOut() : signIn())}
-        >
-          {isSignedIn ? 'SignOut' : 'SignIn'}
-        </p>
+          {mode} Mode
+        </button>{' '}
+        <p className=" cursor-pointer">Contact</p>
       </div>
     </div>
   );
