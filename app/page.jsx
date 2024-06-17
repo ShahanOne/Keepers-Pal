@@ -89,15 +89,13 @@ export default function Home() {
     try {
       const res = await axios.post('/api/pin-note', { noteId: id });
       if (res.data) {
-        toast.success('Note pinned successfully!');
-        setAllNotes(
-          allNotes.map((note) =>
-            note._id === res.data._id ? { ...note, pinned: !note.pinned } : note
-          )
+        setAllNotes((prevNotes) =>
+          prevNotes.map((note) => (note._id === id ? res.data : note))
         );
+        toast.success('Note pinned status updated');
       }
     } catch (err) {
-      toast.error('Failed to pin note.');
+      toast.error('Failed to pin note');
     }
   };
 
@@ -113,7 +111,7 @@ export default function Home() {
   };
 
   return (
-    <div className={`${theme === 'Light' ? 'bg-slate-100' : 'bg-gray-800'}`}>
+    <div className={`${theme === 'Light' ? 'bg-slate-300' : 'bg-zinc-800'}`}>
       <Navbar
         mode={theme}
         changeTheme={() =>
@@ -128,7 +126,7 @@ export default function Home() {
               className={`${
                 theme === 'Light'
                   ? 'bg-slate-200 text-gray-500'
-                  : 'bg-gray-500 text-gray-200'
+                  : 'bg-zinc-500 text-gray-200'
               } flex flex-col p-4 rounded-lg`}
             >
               <p className="text-slate-400">Type Something...</p>
@@ -138,7 +136,7 @@ export default function Home() {
               className={`${
                 theme === 'Light'
                   ? 'bg-slate-200 text-gray-500'
-                  : 'bg-gray-500 text-gray-200'
+                  : 'bg-zinc-500 text-gray-200'
               } flex flex-col p-4 rounded-lg`}
             >
               <input
@@ -150,7 +148,7 @@ export default function Home() {
                 className={`${
                   theme === 'Light'
                     ? 'bg-slate-200 text-gray-500'
-                    : 'bg-gray-500 text-gray-200'
+                    : 'bg-zinc-500 text-gray-200'
                 } outline-none p-2 text-lg`}
               />
               <input
@@ -162,7 +160,7 @@ export default function Home() {
                 className={`${
                   theme === 'Light'
                     ? 'bg-slate-200 text-gray-500'
-                    : 'bg-gray-500 text-gray-200'
+                    : 'bg-zinc-500 text-gray-200'
                 } outline-none p-2 text-sm`}
               />
               <input
@@ -174,7 +172,7 @@ export default function Home() {
                 className={`${
                   theme === 'Light'
                     ? 'bg-slate-200 text-gray-500'
-                    : 'bg-gray-500 text-gray-200'
+                    : 'bg-zinc-500 text-gray-200'
                 } outline-none p-2 text-sm`}
               />
               <textarea
@@ -187,7 +185,7 @@ export default function Home() {
                 className={`${
                   theme === 'Light'
                     ? 'bg-slate-200 text-gray-500'
-                    : 'bg-gray-500 text-gray-200'
+                    : 'bg-zinc-500 text-gray-200'
                 } outline-none p-2 resize-none`}
               />{' '}
             </div>
@@ -199,7 +197,7 @@ export default function Home() {
                   ? addNote()
                   : toast.error('Title and body are required.')
               }
-              className="bg-violet-400 hover:bg-violet-500 text-white p-2 rounded-lg shadow-lg"
+              className="bg-red-400 hover:bg-red-500 text-white p-2 rounded-lg shadow-lg"
             >
               Add Note
             </button>

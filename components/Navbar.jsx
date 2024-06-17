@@ -2,7 +2,7 @@
 
 const Navbar = ({ mode, changeTheme }) => {
   return (
-    <div className="flex justify-between bg-gradient-to-r from-cyan-500 to-indigo-400 text-white px-6 py-8 ">
+    <div className="flex justify-between bg-red-500 text-white px-6 py-8 ">
       <p className="text-xl font-bold">Keepers Pal</p>
       <div className="flex justify-center gap-4 md:gap-12">
         <p className=" cursor-pointer">Home</p>

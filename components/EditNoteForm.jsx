@@ -66,7 +66,7 @@ const EditNoteForm = ({ editThisNote, previousNote, theme }) => {
       <div className="flex justify-end py-2">
         <button
           onClick={handleSubmit}
-          className="bg-violet-400 hover:bg-violet-500 text-white p-2 rounded-lg shadow-lg"
+          className="bg-red-400 hover:bg-red-500 text-white p-2 rounded-lg shadow-lg"
         >
           Confirm
         </button>
