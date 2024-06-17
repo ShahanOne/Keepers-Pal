@@ -32,7 +32,7 @@ const NoteCard = ({
           {tagline}
         </p>
         <p
-          className={`text-sm ${
+          className={`text-sm py-2 ${
             theme === 'Light' ? 'text-gray-800' : 'text-gray-100'
           }`}
         >

@@ -44,6 +44,7 @@ export default function Home() {
       });
       if (res.data) {
         setNote({});
+        setNoteActive(false);
         toast.success('Note added successfully!');
         setAllNotes([...allNotes, res.data]); // Add the new note to the list
       }
@@ -111,9 +112,12 @@ export default function Home() {
   };
 
   return (
-    <div className={`${theme === 'Light' ? 'bg-slate-300' : 'bg-zinc-800'}`}>
+    <div
+      className={`pb-12 ${theme === 'Light' ? 'bg-slate-300' : 'bg-zinc-800'}`}
+    >
       <Navbar
         mode={theme}
+        theme={theme}
         changeTheme={() =>
           theme === 'Light' ? setTheme('Dark') : setTheme('Light')
         }
@@ -206,9 +210,11 @@ export default function Home() {
       </div>
       <div className="px-4">
         <p
-          className={`${theme === 'Light' ? 'text-gray-800' : 'text-gray-200'}`}
+          className={`rounded-lg shadow px-2 bg-red-500 text-white inline-block ${
+            theme === 'Light' ? 'text-gray-800' : 'text-gray-200'
+          }`}
         >
-          Added Notes:{' '}
+          Added Notes{' '}
         </p>
         <div className="grid grid-cols-4 gap-4 pt-6 pb-12">
           {displayedNotes.length > 0 &&
@@ -253,7 +259,6 @@ export default function Home() {
           editThisNote={editThisNote}
         />
       </Modal>
-      <Footer />
       <ToastContainer />
     </div>
   );
