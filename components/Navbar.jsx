@@ -1,6 +1,9 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 const Navbar = ({ mode, changeTheme, theme }) => {
+  const router = useRouter();
   return (
     <div className="flex flex-col md:flex-row justify-between bg-red-500 text-white px-6 py-8 ">
       <p className="text-lg md:text-xl font-bold">Keepers Pal</p>
@@ -13,7 +16,12 @@ const Navbar = ({ mode, changeTheme, theme }) => {
         >
           {mode} Mode
         </button>{' '}
-        <p className=" cursor-pointer">Contact</p>
+        <p
+          className=" cursor-pointer"
+          onClick={() => router.push('https://shahanone.vercel.app')}
+        >
+          Contact
+        </p>
       </div>
     </div>
   );
