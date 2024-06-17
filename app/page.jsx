@@ -123,7 +123,7 @@ export default function Home() {
         }
       />
       <div className="flex justify-center">
-        <div className="flex flex-col justify-center w-[50%] p-6 pb-24">
+        <div className="flex flex-col justify-center w-full md:w-[50%] p-6 pb-24">
           {!isNoteActive ? (
             <div
               onClick={() => setNoteActive(true)}
@@ -216,7 +216,7 @@ export default function Home() {
         >
           Added Notes{' '}
         </p>
-        <div className="grid grid-cols-4 gap-4 pt-6 pb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 pt-6 pb-12">
           {displayedNotes.length > 0 &&
             displayedNotes.map((note, index) => (
               <NoteCard
