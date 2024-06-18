@@ -23,13 +23,14 @@ export default function Home() {
   useEffect(() => {
     const fetchAllNotes = async () => {
       try {
-        // const res = await axios.get('/api/all-notes', {
-        //   headers: { 'Cache-Control': 'no-store' },
-        // });
-        const res = await axios.get(
-          `/api/all-notes?timestamp=${new Date().getTime()}`
-        );
-        setAllNotes(res.data);
+        const res = await fetch('/api/all-notes', {
+          cache: 'no-store',
+        });
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await res.json();
+        setAllNotes(data);
       } catch (err) {
         toast.error('Failed to fetch notes.');
       }
