@@ -33,7 +33,7 @@ const EditNoteForm = ({ editThisNote, previousNote, theme }) => {
       } flex flex-col p-4 rounded-lg`}
     >
       <input
-        value={title}
+        value={title ? title : 'Loading'}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="title"
         className={`${
@@ -43,7 +43,7 @@ const EditNoteForm = ({ editThisNote, previousNote, theme }) => {
         } outline-none p-2 text-lg`}
       />
       <input
-        value={tagline}
+        value={tagline ? tagline : 'Loading'}
         onChange={(e) => setTagline(e.target.value)}
         placeholder="tagline"
         className={`${
@@ -54,7 +54,7 @@ const EditNoteForm = ({ editThisNote, previousNote, theme }) => {
       />
       <textarea
         placeholder="note.."
-        value={body}
+        value={body ? body : 'Loading'}
         rows={2}
         onChange={(e) => setBody(e.target.value)}
         className={`${
