@@ -3,15 +3,15 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const EditNoteForm = ({ editThisNote, previousNote, theme }) => {
-  const [title, setTitle] = useState('');
-  const [tagline, setTagline] = useState('');
-  const [body, setBody] = useState('');
+  const [title, setTitle] = useState('Loading');
+  const [tagline, setTagline] = useState('Loading');
+  const [body, setBody] = useState('Loading');
 
   useEffect(() => {
     if (previousNote) {
-      setTitle(previousNote.title);
-      setTagline(previousNote.tagline);
-      setBody(previousNote.body);
+      setTitle(previousNote.title || '');
+      setTagline(previousNote.tagline || '');
+      setBody(previousNote.body || '');
     }
   }, [previousNote]);
 
@@ -33,8 +33,10 @@ const EditNoteForm = ({ editThisNote, previousNote, theme }) => {
       } flex flex-col p-4 rounded-lg`}
     >
       <input
-        value={title ? title : 'Loading'}
-        onChange={(e) => setTitle(e.target.value)}
+        value={title}
+        onChange={(e) =>
+          setTitle(e.target.value === 'Loading' ? '' : e.target.value)
+        }
         placeholder="title"
         className={`${
           theme === 'Light'
@@ -43,8 +45,10 @@ const EditNoteForm = ({ editThisNote, previousNote, theme }) => {
         } outline-none p-2 text-lg`}
       />
       <input
-        value={tagline ? tagline : 'Loading'}
-        onChange={(e) => setTagline(e.target.value)}
+        value={tagline}
+        onChange={(e) =>
+          setTagline(e.target.value === 'Loading' ? '' : e.target.value)
+        }
         placeholder="tagline"
         className={`${
           theme === 'Light'
@@ -54,9 +58,11 @@ const EditNoteForm = ({ editThisNote, previousNote, theme }) => {
       />
       <textarea
         placeholder="note.."
-        value={body ? body : 'Loading'}
+        value={body}
         rows={2}
-        onChange={(e) => setBody(e.target.value)}
+        onChange={(e) =>
+          setBody(e.target.value === 'Loading' ? '' : e.target.value)
+        }
         className={`${
           theme === 'Light'
             ? 'bg-slate-200 text-gray-500'
