@@ -23,7 +23,9 @@ export default function Home() {
   useEffect(() => {
     const fetchAllNotes = async () => {
       try {
-        const res = await axios.get('/api/all-notes');
+        const res = await axios.get('/api/all-notes', {
+          headers: { 'Cache-Control': 'no-store' },
+        });
         setAllNotes(res.data);
       } catch (err) {
         toast.error('Failed to fetch notes.');
