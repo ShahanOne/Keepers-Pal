@@ -3,13 +3,14 @@ import { connectDB } from '../../../utils/db';
 import { getAllNotes } from '@/lib/functions/note';
 
 let isConnected = false;
-if (!isConnected) {
-  connectDB();
-  isConnected = true;
-}
 
 export async function GET() {
   try {
+    if (!isConnected) {
+      await connectDB();
+      isConnected = true;
+    }
+
     const foundNotes = await getAllNotes();
     const response = NextResponse.json(foundNotes);
     response.headers.set('Cache-Control', 'no-store, max-age=0');

@@ -1,20 +1,54 @@
+// import mongoose from 'mongoose';
+
+// const MONGODB_URI = process.env.MONGODB_URI;
+
+// let cachedClient = null;
+
+// export async function connectDB() {
+//   if (cachedClient) {
+//     return cachedClient;
+//   }
+
+//   const client = await mongoose.connect(MONGODB_URI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   });
+
+//   cachedClient = client;
+
+//   return client;
+// }
 import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-let cachedClient = null;
+if (!MONGODB_URI) {
+  throw new Error(
+    'Please define the MONGODB_URI environment variable inside .env.local'
+  );
+}
+
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
 
 export async function connectDB() {
-  if (cachedClient) {
-    return cachedClient;
+  if (cached.conn) {
+    return cached.conn;
   }
 
-  const client = await mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  if (!cached.promise) {
+    const options = {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    };
 
-  cachedClient = client;
-
-  return client;
+    cached.promise = mongoose.connect(MONGODB_URI, options).then((mongoose) => {
+      return mongoose;
+    });
+  }
+  cached.conn = await cached.promise;
+  return cached.conn;
 }
