@@ -37,6 +37,18 @@ export default function Home() {
     };
     fetchAllNotes();
   }, []);
+  const getNotss = async () => {
+    try {
+      const res = await fetch('/api/all-notes');
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await res.json();
+      setAllNotes(data);
+    } catch (err) {
+      toast.error('Failed to fetch notes.');
+    }
+  };
 
   const addNote = async () => {
     const { title, tagline, body, uploadedBy } = note;
@@ -128,6 +140,9 @@ export default function Home() {
           theme === 'Light' ? setTheme('Dark') : setTheme('Light')
         }
       />
+      <button className="bg-indigo-400 p-2 rounded shadow" onClick={getNotss}>
+        Get
+      </button>
       <div className="flex justify-center">
         <div className="flex flex-col justify-center w-full md:w-[50%] p-6 pb-24">
           {!isNoteActive ? (
