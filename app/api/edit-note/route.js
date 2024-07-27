@@ -10,7 +10,8 @@ if (!isConnected) {
 
 export async function POST(req) {
   try {
-    const { noteId, newTitle, newTagline, newBody } = await req.json();
+    const body = await req.json();
+    const { noteId, newTitle, newTagline, newBody } = body[0];
 
     const note = await getNoteWithId(noteId);
 

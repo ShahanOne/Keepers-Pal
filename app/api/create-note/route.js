@@ -8,7 +8,8 @@ if (!isConnected) {
 }
 
 export async function POST(req) {
-  const { title, tagline, body, uploadedBy, pinned } = await req.json();
+  const reqBody = await req.json();
+  const { title, tagline, body, uploadedBy, pinned } = reqBody[0];
 
   try {
     const newNote = await createNote(title, tagline, body, uploadedBy, pinned);

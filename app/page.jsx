@@ -23,49 +23,43 @@ export default function Home() {
   useEffect(() => {
     const fetchAllNotes = async () => {
       try {
-        const res = await fetch('/api/all-notes', {
-          cache: 'no-store',
-        });
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await res.json();
-        setAllNotes(data);
+        const res = await fetch('/api/all-notes')
+          .then((response) => response.json())
+          .then((data) => {
+            setAllNotes(data);
+          });
       } catch (err) {
         toast.error('Failed to fetch notes.');
       }
     };
     fetchAllNotes();
   }, []);
-  // const getNotss = async () => {
-  //   try {
-  //     const res = await fetch('/api/all-notes');
-  //     if (!res.ok) {
-  //       throw new Error('Network response was not ok');
-  //     }
-  //     const data = await res.json();
-  //     setAllNotes(data);
-  //   } catch (err) {
-  //     toast.error('Failed to fetch notes.');
-  //   }
-  // };
 
   const addNote = async () => {
     const { title, tagline, body, uploadedBy } = note;
     try {
-      const res = await axios.post('/api/create-note', {
-        title,
-        tagline,
-        body,
-        uploadedBy,
-        pinned: false,
-      });
-      if (res.data) {
-        setNote({});
-        setNoteActive(false);
-        toast.success('Note added successfully!');
-        setAllNotes([...allNotes, res.data]); // Add the new note to the list
-      }
+      const res = await fetch('/api/create-note', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([
+          {
+            title,
+            tagline,
+            body,
+            uploadedBy,
+            pinned: false,
+          },
+        ]),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setNote({});
+          setNoteActive(false);
+          toast.success('Note added successfully!');
+          setAllNotes([...allNotes, data]); // Add the new note to the list
+        });
     } catch (err) {
       toast.error('Failed to add note.');
     }
@@ -74,10 +68,21 @@ export default function Home() {
   const handleEditNote = async (id) => {
     setEditNote(true);
     try {
-      const res = await axios.post('/api/get-note', { noteId: id });
-      if (res.data) {
-        setNoteToEdit(res.data);
-      }
+      const res = await fetch('/api/get-note', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([
+          {
+            noteId: id,
+          },
+        ]),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setNoteToEdit(data);
+        });
     } catch (err) {
       toast.error('Failed to fetch note for editing.');
     }
@@ -85,20 +90,33 @@ export default function Home() {
 
   const editThisNote = async (title, tagline, body) => {
     try {
-      const res = await axios.post('/api/edit-note', {
-        noteId: noteToEdit?._id,
-        newTitle: title,
-        newTagline: tagline,
-        newBody: body,
-      });
-      if (res.data.title) {
-        setNoteToEdit(null);
-        setEditNote(false);
-        toast.success('Note updated successfully!');
-        setAllNotes(
-          allNotes.map((note) => (note._id === res.data._id ? res.data : note))
-        );
-      }
+      const res = await fetch('/api/edit-note', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([
+          {
+            noteId: noteToEdit?._id,
+            newTitle: title,
+            newTagline: tagline,
+            newBody: body,
+          },
+        ]),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.title) {
+            setNoteToEdit(null);
+            setEditNote(false);
+            toast.success('Note updated successfully!');
+            setAllNotes(
+              allNotes.map((note) =>
+                note._id === res.data._id ? res.data : note
+              )
+            );
+          }
+        });
     } catch (err) {
       toast.error('Failed to update note.');
     }
@@ -106,13 +124,24 @@ export default function Home() {
 
   const pinNote = async (id) => {
     try {
-      const res = await axios.post('/api/pin-note', { noteId: id });
-      if (res.data) {
-        setAllNotes((prevNotes) =>
-          prevNotes.map((note) => (note._id === id ? res.data : note))
-        );
-        toast.success('Note pinned status updated');
-      }
+      const res = await fetch('/api/pin-note', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([
+          {
+            noteId: id,
+          },
+        ]),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setAllNotes((prevNotes) =>
+            prevNotes.map((note) => (note._id === id ? data : note))
+          );
+          toast.success('Note pinned status updated');
+        });
     } catch (err) {
       toast.error('Failed to pin note');
     }

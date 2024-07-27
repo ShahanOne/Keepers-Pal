@@ -8,7 +8,8 @@ if (!isConnected) {
 }
 
 export async function POST(req) {
-  const { noteId } = await req.json();
+  const body = await req.json();
+  const { noteId } = body[0];
 
   try {
     const deletedNote = await deleteNote(noteId);
