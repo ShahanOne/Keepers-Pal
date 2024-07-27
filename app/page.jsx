@@ -4,6 +4,7 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import NoteCard from '@/components/NoteCard';
 import Pagination from '@/components/Pagination';
+import SkeletonCard from '@/components/SkeletonCard';
 import { Modal } from 'antd';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -266,7 +267,7 @@ export default function Home() {
           Added Notes{' '}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 pt-6 pb-12">
-          {displayedNotes.length > 0 &&
+          {displayedNotes.length > 0 ? (
             displayedNotes.map((note, index) => (
               <NoteCard
                 key={index}
@@ -279,7 +280,18 @@ export default function Home() {
                 body={note.body}
                 pinned={note.pinned}
               />
-            ))}
+            ))
+          ) : (
+            <>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard /> <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </>
+          )}
         </div>
       </div>
       <Pagination
