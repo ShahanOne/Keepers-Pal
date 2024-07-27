@@ -111,13 +111,12 @@ export default function Home() {
             setEditNote(false);
             toast.success('Note updated successfully!');
             setAllNotes(
-              allNotes.map((note) =>
-                note._id === res.data._id ? res.data : note
-              )
+              allNotes.map((note) => (note._id === data._id ? data : note))
             );
           }
         });
     } catch (err) {
+      console.log(err);
       toast.error('Failed to update note.');
     }
   };
